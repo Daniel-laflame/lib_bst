@@ -5,16 +5,16 @@ class Node {
 private:
     int data;
     int weight;
-    Node* lchild;
-    Node* rchild;
+    Node* lc;
+    Node* rc;
 
 public:
 
     Node(int x) {
         this->data = x;
         this->weight = 1;
-        this->lchild = nullptr;
-        this->rchild = nullptr;
+        this->lc = nullptr;
+        this->rc = nullptr;
     }
 
 
