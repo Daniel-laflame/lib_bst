@@ -1,21 +1,24 @@
 #include <iostream>
 using namespace std;
 
-struct node{
+class Node {
+private:
     int data;
     int weight;
-    node* lc;
-    node* rc;
-    node(int x) {
-        data = x;
-        weight=1;
-        lc = nullptr;
-        rc = nullptr;
+    Node* lchild;
+    Node* rchild;
+
+public:
+
+    Node(int x) {
+        this->data = x;
+        this->weight = 1;
+        this->lchild = nullptr;
+        this->rchild = nullptr;
     }
-};
 
 
-node *insert_it(node* root, int v){
+    Node *insert_it(node* root, int v){
     if (root==NULL){
         return new node(v);
     }
@@ -43,42 +46,51 @@ node *insert_it(node* root, int v){
     return root;
 }
 
-node* insert_ric(node *root,int v){
-    if(root==NULL){
-        return new node(v);
+Node* insertR(int k){
+    if(this==NULL){
+        return new Node(k);
     }
-    if(root->data==v){
-        root->weight++;
-        return root;
+    if(this->data==k){
+        this->weight++;
+        return this;
     }
-    if(root->data<v){
-        root->rc=insert_ric(root->rc,v);
+    if(this->data<k){
+        this->rc=this->rc->insertR(k);
     } else {
-        root->lc=insert_ric(root->lc,v);
+        this->lc=this->lc->insertR(k);
     }
-    return root;
+    return this;
 }
 
-void preorder (node* root){
-    if(root==NULL){
+void preOrder (){
+    if(this==NULL){
             return;
      }
-    cout << root->data << " ";
-    preorder(root->lc);
-    preorder(root->rc);
+    cout << this->data << " ";
+    this->lc->preOrder();
+    this->rc->preOrder();
 }
 
-void inorder (node* root){
-    if(root==NULL){
+void postOrder (){
+    if(this==NULL){
             return;
      }
-    inorder(root->lc);
-    cout << root->data << " ";
-    inorder(root->rc);
+    this->lc->postOrder();
+    this->rc->postOrder();
+    cout << this->data << " ";
 }
 
-bool search_it(node* root,int sv){
-    node* current = root;
+void inOrder (){
+    if(this==NULL){
+            return;
+     }
+    this->lc->inOrder();
+    cout << this->data << " ";
+    this->rc->inOrder();
+}
+
+bool search_it(Node* root,int sv){
+    Node* current = root;
     while(current!=NULL){
         if (current->data==sv){
             return true;
@@ -93,7 +105,7 @@ bool search_it(node* root,int sv){
 }
 
 
-bool search_ric(node* root,int sv){
+bool search_ric(Node* root,int sv){
     if (root->data==sv){
         return true;
     }
@@ -108,7 +120,7 @@ bool search_ric(node* root,int sv){
     return false;
 }
 
-int height(node* root){
+int height(Node* root){
     if (root==NULL){
         return 0;
     }
@@ -117,7 +129,7 @@ int height(node* root){
     return max(l,r)+1;
 }
 
-node* remove_node(node* root, int v){
+Node* remove_node(Node* root, int v){
     if(root==NULL){
         cout<<"non e stato trovato nessun nodo che coincida col nodo da eliminare"<<endl;
         return root;
@@ -155,7 +167,7 @@ node* remove_node(node* root, int v){
     return root;
 }
 
-bool isBST(node* root, int mv = -100, int MV = 100) {
+bool isBST(Node* root, int mv = -100, int MV = 100) {
     if (root == nullptr) {
         return true;
     }
