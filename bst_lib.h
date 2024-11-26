@@ -177,3 +177,5 @@ bool isBST(Node* root, int mv = -100, int MV = 100) {
     return isBST(root->lc, mv, root->data) && 
            isBST(root->rc, root->data, MV);
 }
+
+};
