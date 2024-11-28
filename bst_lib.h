@@ -17,33 +17,33 @@ public:
         this->rc = nullptr;
     }
 
-    Node* insert_it(Node* root, int v) {
-        if (root == NULL) {
-            return new Node(v);
+    Node* insertI(int k) {
+        if (this == nullptr) {
+            return new Node(k);
         }
-        Node* current = root;
+
+        Node* current = this;
         Node* parent = nullptr;
 
-        while (current != NULL) {
+         while (current != nullptr) {
             parent = current;
-            if (current->data == v) {
+            if (current->data == k) {
                 current->weight++;
-                return root;
-            } else if (current->data > v) {
+                return this;
+            } else if (current->data > k) {
                 current = current->lc;
             } else {
                 current = current->rc;
             }
         }
 
-        Node* newNode = new Node(v);
-
-        if (parent->data > v) {
+        Node* newNode = new Node(k);
+        if (parent->data > k) {
             parent->lc = newNode;
-        } else if (parent->data < v) {
+        } else {
             parent->rc = newNode;
         }
-        return root;
+        return this;
     }
 
     Node* insertR(int k) {
@@ -89,13 +89,13 @@ public:
         this->rc->inOrder();
     }
 
-    bool search_it(Node* root, int sv) {
-        Node* current = root;
-        while (current != NULL) {
-            if (current->data == sv) {
+    bool searchI(int k) {
+        Node* current = this;
+        while (current != nullptr) {
+            if (current->data == k) {
                 return true;
             }
-            if (sv < current->data) {
+            if (k < current->data) {
                 current = current->lc;
             } else {
                 current = current->rc;
@@ -104,19 +104,18 @@ public:
         return false;
     }
 
-    bool search_ric(Node* root, int sv) {
-        if (root->data == sv) {
-            return true;
-        }
-        if (root == nullptr) {
+    bool searchR(int k) {
+        if (this == nullptr) {
             return false;
         }
-        if (root->data < sv) {
-            return search_ric(root->rc, sv);
-        } else {
-            return search_ric(root->lc, sv);
+        if (this->data == k) {
+            return true;
         }
-        return false;
+        if (this->data < k) {
+            return this->rc->searchR(k);
+        } else {
+            return this->lc->searchR(k);
+        }
     }
 
     int height(Node* root) {
