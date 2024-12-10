@@ -127,52 +127,52 @@ public:
         return max(l, r) + 1;
     }
 
-    Node* remove_node(Node* root, int v) {
-        if (root == NULL) {
-            cout << "Non e' stato trovato nessun nodo che coincida col nodo da eliminare" << endl;
-            return root;
+    Node* Remove_node(int k) {
+        if (this == nullptr) {
+            return this;
         }
-        if (root->data == v) {
-            if (root->lc == NULL && root->rc == NULL) {
-                delete root;
-                root->data = 0;
-                root->lc = nullptr;
-                root->rc = nullptr;
-                return root;
+
+        if (this->data == k) {
+            if (this->lc == nullptr && this->rc == nullptr) {
+                delete this;
+                return nullptr;
             }
-            if (root->lc == NULL) {
-                Node* temp = root->rc;
-                delete root;
-                root->data = 0;
-                root->lc = nullptr;
-                root->rc = nullptr;
+
+            if (this->lc == nullptr) {
+                Node* temp = this->rc;
+                delete this;
                 return temp;
             }
-            if (root->rc == NULL) {
-                Node* temp = root->lc;
-                delete root;
-                root->data = 0;
-                root->lc = nullptr;
-                root->rc = nullptr;
+            if (this->rc == nullptr) {
+                Node* temp = this->lc;
+                delete this;
                 return temp;
             }
+
+            Node* temp = this->rc;
+            while (temp->lc != nullptr) {
+                temp = temp->lc;
+            }
+            this->data = temp->data;
+            this->rc = this->rc->remove_node(temp->data);
+            return this;
         }
-        if (v < root->data) {
-            root->lc = remove_node(root->lc, v);
+
+        if (k < this->data) {
+            this->lc = this->lc->remove_node(k);
         } else {
-            root->rc = remove_node(root->rc, v);
+            this->rc = this->rc->remove_node(k);
         }
-        return root;
+        return this;
     }
 
-    bool isBST(Node* root, int mv = -100, int MV = 100) {
-        if (root == nullptr) {
+    bool isBst() {
+        if (this == nullptr) {
             return true;
         }
-        if (root->data <= mv || root->data >= MV) {
+        if (this->data <= -1 || this->data >= 100) {
             return false;
         }
-        return isBST(root->lc, mv, root->data) &&
-               isBST(root->rc, root->data, MV);
+        return this->lc->isBst && this->rc->isBst
     }
 };
